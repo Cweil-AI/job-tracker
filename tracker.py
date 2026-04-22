@@ -108,13 +108,6 @@ def init_db():
             score             INTEGER DEFAULT 0
         )
     """)
-    for col, definition in [
-        ("posted_at",         "TEXT"),
-        ("status",            "TEXT DEFAULT 'New'"),
-        ("status_updated_at", "TEXT"),
-        ("score",             "INTEGER DEFAULT 0"),
-    ]:
-        cur.execute(f"ALTER TABLE seen_jobs ADD COLUMN IF NOT EXISTS {col} {definition}")
     conn.commit()
     cur.close()
     return conn
@@ -779,7 +772,6 @@ def run():
     log.info("Job Tracker starting")
 
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
-    conn   = init_db()
     state  = load_state()
 
     last_email_at: datetime | None = parse_date(state.get("last_email_at"))
@@ -788,17 +780,22 @@ def run():
     else:
         log.info("No previous email on record — all qualifying jobs will be included")
 
+    # --- Phase 1: Scrape all job boards (no DB connection held open) ---
     campaigns: dict = config.get("campaigns", {})
-    new_jobs_by_campaign: dict[str, list[dict]] = {}
+    all_candidates: dict[str, list[dict]] = {}
 
     for campaign_name, campaign_cfg in campaigns.items():
         queries: list[str] = campaign_cfg.get("queries", [])
         filters: dict      = campaign_cfg.get("filters", {})
         log.info(f"--- Campaign: {campaign_name} ---")
+        all_candidates[campaign_name] = run_campaign(campaign_name, queries, filters)
 
-        candidates = run_campaign(campaign_name, queries, filters)
-        new_jobs   = []
+    # --- Phase 2: Connect to DB and save new jobs ---
+    conn = init_db()
+    new_jobs_by_campaign: dict[str, list[dict]] = {}
 
+    for campaign_name, candidates in all_candidates.items():
+        new_jobs = []
         for job in candidates:
             jid = job_fingerprint(job["title"], job.get("company", ""), job["url"])
             if is_new(conn, jid):
