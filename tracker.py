@@ -451,21 +451,27 @@ def passes_filters(job: dict, filters: dict) -> tuple[bool, str]:
     location    = job.get("location", "").lower()
     description = job.get("description", "").lower()
 
-    # Title must contain at least one include keyword
-    must_include = [k.lower() for k in filters.get("title_must_include", [])]
-    if must_include and not any(kw in title for kw in must_include):
-        return False, f"title '{job['title']}' missing required keywords"
+    title_must_exclude = [k.lower() for k in filters.get("title_must_exclude", [])]
+    desc_must_include  = [k.lower() for k in filters.get("description_must_include", [])]
+    title_must_include = [k.lower() for k in filters.get("title_must_include", [])]
+    title_ai_specific  = [k.lower() for k in filters.get("title_ai_specific", [])]
 
     # Title must not contain any exclude keyword
-    for kw in [k.lower() for k in filters.get("title_must_exclude", [])]:
+    for kw in title_must_exclude:
         if kw in title:
             return False, f"title '{job['title']}' blocked by '{kw}'"
 
-    # Description must include at least one AI keyword (only when description is available)
-    desc_must_include = [k.lower() for k in filters.get("description_must_include", [])]
-    if desc_must_include and description:
+    if description and desc_must_include:
+        # Has description: allow broad title keywords, but description must contain AI terms
+        if title_must_include and not any(kw in title for kw in title_must_include):
+            return False, f"title '{job['title']}' missing required keywords"
         if not any(kw in description for kw in desc_must_include):
             return False, f"description for '{job['title']}' missing AI keywords"
+    else:
+        # No description: require specific AI title keywords to avoid false positives
+        specific = title_ai_specific if title_ai_specific else title_must_include
+        if specific and not any(kw in title for kw in specific):
+            return False, f"title '{job['title']}' missing specific AI keywords (no description available)"
 
     # Location must match allowed list (empty location gets benefit of the doubt)
     allowed = [loc.lower() for loc in filters.get("location_allow", [])]
