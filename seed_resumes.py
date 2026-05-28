@@ -1,5 +1,6 @@
-#!/usr/bin/env python3"""
-seed_resumes.py — Load resume .txt files from the /resumes folder into Supabase.
+#!/usr/bin/env python3
+"""
+seed_resumes.py - Load resume .txt files from the /resumes folder into Supabase.
 
 Usage:
   1. Create a folder called 'resumes' in the same directory as this script
@@ -16,6 +17,11 @@ from pathlib import Path
 from db import get_conn
 
 RESUMES_DIR = Path(__file__).parent / "resumes"
+
+# Fallback: also check the savmom-chatbot resumes folder
+_ALT_DIR = Path.home() / "OneDrive" / "Corey - Personal" / "Job Search" / "savmom-chatbot" / "resumes"
+if not any(RESUMES_DIR.glob("*.txt")) and _ALT_DIR.exists():
+    RESUMES_DIR = _ALT_DIR
 
 
 def seed():
