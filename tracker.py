@@ -115,7 +115,10 @@ def init_db():
             status            TEXT DEFAULT 'New',
             status_updated_at TEXT,
             score             INTEGER DEFAULT 0,
-            rationale         TEXT
+            rationale         TEXT,
+            best_resume       TEXT,
+            resume_score      INTEGER,
+            resume_rationale  TEXT
         )
     """)
     conn.commit()
@@ -137,7 +140,7 @@ def is_new(conn, jid: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Relevance Scoring — LLM-based via OpenAI
+# Relevance Scoring — LLM-based via Anthropic
 # ---------------------------------------------------------------------------
 
 def score_job_with_llm(title: str, company: str, description: str = "") -> tuple[int, str]:
@@ -186,19 +189,82 @@ def score_job_with_llm(title: str, company: str, description: str = "") -> tuple
         return 3, "LLM unavailable"
 
 
+# ---------------------------------------------------------------------------
+# Resume Matching — picks best resume for each job via Anthropic
+# ---------------------------------------------------------------------------
+
+def match_resume_to_job(conn, title: str, company: str, description: str = "") -> tuple[str | None, int, str]:
+    """Compare all resumes against a job and return (best_resume_name, score, rationale)."""
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT name, content FROM resumes ORDER BY id")
+        resumes = cur.fetchall()
+        cur.close()
+
+        if not resumes:
+            return None, 0, ""
+
+        import anthropic
+        client = anthropic.Anthropic()
+
+        desc_snippet = description[:1000] if description else "Not available"
+        best_name, best_score, best_rationale = None, 0, ""
+
+        for resume_name, resume_content in resumes:
+            prompt = (
+                f"You are evaluating how well a resume matches a job posting.\n\n"
+                f"RESUME — {resume_name}:\n{resume_content[:3000]}\n\n"
+                f"JOB DETAILS:\n"
+                f"- Title: {title}\n"
+                f"- Company: {company}\n"
+                f"- Description: {desc_snippet}\n\n"
+                "Rate how well this resume matches this job on a scale of 1-5:\n"
+                "1 = Poor match\n2 = Weak match\n3 = Moderate match\n"
+                "4 = Good match\n5 = Excellent match\n\n"
+                'Respond ONLY with a JSON object, no other text:\n'
+                '{"score": <integer 1-5>, "rationale": "<one sentence, max 20 words>"}'
+            )
+            message = client.messages.create(
+                model="claude-haiku-4-5",
+                max_tokens=100,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            content = message.content[0].text.strip()
+            if content.startswith("```"):
+                content = re.sub(r"^```[a-z]*\n?", "", content)
+                content = re.sub(r"\n?```$", "", content).strip()
+            result    = json.loads(content)
+            r_score   = max(1, min(5, int(result["score"])))
+            r_rationale = str(result.get("rationale", ""))[:300]
+
+            if r_score > best_score:
+                best_score     = r_score
+                best_name      = resume_name
+                best_rationale = r_rationale
+
+        return best_name, best_score, best_rationale
+
+    except Exception as exc:
+        log.debug(f"Resume matching failed for '{title}': {exc}")
+        return None, 0, ""
+
+
 def save_job(conn, jid, campaign, title, company, location, url, source,
-             posted_at=None, score=3, rationale=""):
+             posted_at=None, score=3, rationale="",
+             best_resume=None, resume_score=None, resume_rationale=None):
     cur = conn.cursor()
     cur.execute(
         """INSERT INTO seen_jobs
            (id, campaign, title, company, location, url, source,
-            found_at, posted_at, status, status_updated_at, score, rationale)
-           VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            found_at, posted_at, status, status_updated_at, score, rationale,
+            best_resume, resume_score, resume_rationale)
+           VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
            ON CONFLICT (id) DO NOTHING""",
         (jid, campaign, title, company, location, url, source,
          datetime.now(timezone.utc).isoformat(),
          posted_at.isoformat() if posted_at else None,
-         "New", None, score, rationale),
+         "New", None, score, rationale,
+         best_resume, resume_score, resume_rationale),
     )
     conn.commit()
     cur.close()
@@ -873,20 +939,30 @@ def run():
         new_jobs = []
         for job in candidates:
             jid = job_fingerprint(job["title"], job.get("company", ""), job["url"])
-            if is_new(conn, jid):
-                score, rationale = score_job_with_llm(
-                    job["title"],
-                    job.get("company", ""),
-                    job.get("description", ""),
-                )
-                save_job(
-                    conn, jid, campaign_name,
-                    job["title"], job.get("company", ""),
-                    job.get("location", ""), job["url"], job["source"],
-                    job.get("posted_at"),
-                    score=score, rationale=rationale,
-                )
-                new_jobs.append(job)
+            if not is_new(conn, jid):
+                continue  # MD5 duplicate
+
+            score, rationale = score_job_with_llm(
+                job["title"],
+                job.get("company", ""),
+                job.get("description", ""),
+            )
+            best_resume, resume_score, resume_rationale = match_resume_to_job(
+                conn,
+                job["title"],
+                job.get("company", ""),
+                job.get("description", ""),
+            )
+            save_job(
+                conn, jid, campaign_name,
+                job["title"], job.get("company", ""),
+                job.get("location", ""), job["url"], job["source"],
+                job.get("posted_at"),
+                score=score, rationale=rationale,
+                best_resume=best_resume, resume_score=resume_score,
+                resume_rationale=resume_rationale,
+            )
+            new_jobs.append(job)
 
         new_jobs_by_campaign[campaign_name] = new_jobs
         log.info(f"  -> {len(new_jobs)} NEW jobs (of {len(candidates)} found)")

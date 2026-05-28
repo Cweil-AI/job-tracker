@@ -54,7 +54,10 @@ def get_jobs():
     cur.execute(
         "SELECT id, campaign, title, company, location, url, source, "
         "posted_at, COALESCE(status,'New') as status, status_updated_at, "
-        "COALESCE(score,0) as score, COALESCE(rationale,'') as rationale "
+        "COALESCE(score,0) as score, COALESCE(rationale,'') as rationale, "
+        "COALESCE(best_resume,'') as best_resume, "
+        "COALESCE(resume_score,0) as resume_score, "
+        "COALESCE(resume_rationale,'') as resume_rationale "
         "FROM seen_jobs "
         "WHERE COALESCE(status,'New') != 'Not a Fit' "
         "ORDER BY score DESC, found_at DESC"
@@ -175,6 +178,7 @@ a:hover { text-decoration: underline; }
           <th>Location</th>
           <th>Posted</th>
           <th>Campaign</th>
+          <th>Resume</th>
           <th>Status</th>
           <th>Source</th>
         </tr>
@@ -272,6 +276,24 @@ function renderTable() {
       `<span class="score-dot" style="background:${i < score ? SCORE_COLORS[score-1] : '#e0e0e0'}"></span>`
     ).join("");
 
+    // Resume recommendation
+    const resumeName  = j.best_resume  || "";
+    const resumeScore = j.resume_score || 0;
+    const resumeTip   = j.resume_rationale
+      ? `${resumeName} (${resumeScore}/5) — ${j.resume_rationale}`
+      : resumeName ? `${resumeName} (${resumeScore}/5)` : "";
+    const resumeDots  = resumeName
+      ? Array.from({length:5}, (_,i) =>
+          `<span class="score-dot" style="background:${i < resumeScore ? SCORE_COLORS[resumeScore-1] : '#e0e0e0'}"></span>`
+        ).join("")
+      : "";
+    const resumeCell  = resumeName
+      ? `<span style="cursor:help" title="${resumeTip}">
+           <strong style="font-size:12px;display:block">${resumeName}</strong>
+           <span class="score-badge">${resumeDots}</span>
+         </span>`
+      : `<span style="color:#bbb">—</span>`;
+
     // Status options
     const opts = STATUS_ORDER.map(s =>
       `<div class="status-opt" onclick="setStatus('${j.id}','${s}',event)">
@@ -287,6 +309,7 @@ function renderTable() {
       <td>${j.location}</td>
       <td>${posted}</td>
       <td style="font-size:12px;color:#666">${j.campaign}</td>
+      <td>${resumeCell}</td>
       <td>
         <div class="status-wrap">
           <span class="badge" id="badge-${j.id}" style="background:${color}"
