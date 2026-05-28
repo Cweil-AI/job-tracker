@@ -435,6 +435,31 @@ def fetch_himalayas(query: str) -> list[dict]:
         return []
 
 
+def fetch_jobicy(query: str) -> list[dict]:
+    """Fetch from Jobicy — remote-focused job board with free public API."""
+    url = "https://jobicy.com/api/v2/remote-jobs"
+    try:
+        resp = requests.get(url, params={"count": 50, "tag": query},
+                            headers=HEADERS, timeout=15)
+        data = resp.json()
+        jobs = []
+        for item in data.get("jobs", []):
+            jobs.append({
+                "title":       item.get("jobTitle", ""),
+                "company":     item.get("companyName", ""),
+                "location":    item.get("jobGeo", "Remote"),
+                "url":         item.get("url", ""),
+                "source":      "Jobicy",
+                "posted_at":   parse_date(item.get("pubDate")),
+                "description": strip_html(item.get("jobDescription", "")),
+            })
+        log.info(f"  Jobicy     '{query}': {len(jobs)} results")
+        return jobs
+    except Exception as exc:
+        log.warning(f"  Jobicy fetch failed for '{query}': {exc}")
+        return []
+
+
 def fetch_remotive(query: str) -> list[dict]:
     """Fetch from Remotive — remote tech jobs with free API (rate-limited)."""
     url = "https://remotive.com/api/remote-jobs"
@@ -461,7 +486,7 @@ def fetch_remotive(query: str) -> list[dict]:
 
 
 SOURCES = [fetch_indeed, fetch_himalayas, fetch_remotive,
-           fetch_remoteok, fetch_arbeitnow, fetch_weworkremotely]
+           fetch_remoteok, fetch_arbeitnow, fetch_weworkremotely, fetch_jobicy]
 # fetch_linkedin paused
 
 
