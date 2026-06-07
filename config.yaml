@@ -1,0 +1,115 @@
+# =============================================================================
+# Job Tracker Configuration
+# =============================================================================
+
+# Supabase / Neon PostgreSQL connection string
+# Set this as the DATABASE_URL environment variable in Railway instead
+database_url: ""
+
+
+campaigns:
+
+  # ---------------------------------------------------------------------------
+  # Campaign 1 — Edit this with the user's target roles
+  # ---------------------------------------------------------------------------
+  Campaign Name Here:
+    queries:
+      - "job title to search"
+      - "alternative job title"
+      - "another search term"
+
+    filters:
+      # Job title MUST contain at least one of these words (case-insensitive)
+      title_must_include:
+        - keyword1
+        - keyword2
+
+      # Job title must NOT contain any of these words
+      title_must_exclude:
+        - software engineer
+        - software developer
+        - designer
+        - nurse
+        - driver
+
+      # Locations to allow — include "remote" and "united states" for remote roles
+      location_allow:
+        - remote
+        - united states
+        - new york
+        - new jersey
+        - connecticut
+        - massachusetts
+        - pennsylvania
+        - washington dc
+        - maryland
+        - virginia
+        - north carolina
+        - south carolina
+        - georgia
+        - florida
+        - boston
+        - philadelphia
+        - atlanta
+        - miami
+        - charlotte
+        - raleigh
+        - " ny"
+        - " nj"
+        - " ct"
+        - " ma"
+        - " pa"
+        - " dc"
+        - " md"
+        - " va"
+        - " nc"
+        - " sc"
+        - " ga"
+        - " fl"
+
+  # ---------------------------------------------------------------------------
+  # Campaign 2 — Add a second campaign or delete this section
+  # ---------------------------------------------------------------------------
+  # Second Campaign Name:
+  #   queries:
+  #     - "search term"
+  #   filters:
+  #     title_must_include:
+  #       - keyword
+  #     title_must_exclude:
+  #       - unwanted
+  #     location_allow:
+  #       - remote
+
+
+# =============================================================================
+# Email Notifications
+# =============================================================================
+email:
+  enabled: true
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  username: THEIR_EMAIL@gmail.com
+  password: THEIR_GMAIL_APP_PASSWORD
+  to: THEIR_EMAIL@gmail.com
+
+
+# =============================================================================
+# Desktop Notifications (set to false for server deployments)
+# =============================================================================
+notifications:
+  desktop: false
+
+
+# =============================================================================
+# Tavily API (company research enrichment)
+# Set as TAVILY_API_KEY environment variable in Railway instead
+# =============================================================================
+tavily_api_key: ""
+
+
+# =============================================================================
+# Anthropic API (AI scoring, enrichment, cover letters, nudges)
+# Set as ANTHROPIC_API_KEY environment variable in Railway instead
+# =============================================================================
+anthropic_api_key: ""
