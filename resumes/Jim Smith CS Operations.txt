@@ -1,0 +1,75 @@
+Jim Smith
+
+Boston, MA • 617-733-5550 • jrsmitty21@gmail.com • linkedin.com/in/jrsmitty/
+
+Executive Summary
+
+AI-forward Customer Success and Operations leader with 15+ years building scalable customer intelligence systems, operational
+workflows, and automation across B2B SaaS and enterprise technology environments. Combines Customer Success leadership,
+systems thinking, and hands-on technical execution to build operational applications, lifecycle automation, and telemetry-driven
+workflows that improve customer visibility, renewal confidence, onboarding execution, and scalable customer engagement.
+
+Professional Experience
+
+Katalon | Remote
+Sr. Manager, CX Operations | January 2026 to Present
+Sr. Manager, Digital Success & Enablement | May 2025 to January 2026
+
+Built customer intelligence infrastructure connecting telemetry, CRM, onboarding, forecasting, and customer engagement
+signals into operational decision-support systems for Customer Success leadership.
+Developed Slack-native operational applications and automation using OpenAI APIs, Google Apps Script, Slack APIs,
+Metabase, and workflow tooling, including Revenue Pulse forecasting and operational intelligence, CS Team Pulse
+operational reporting, onboarding orchestration systems, and KPI visibility tooling.
+Reduced manual operational work while improving onboarding, renewal, and customer health visibility across 1,100+ global
+SMB and enterprise accounts through scalable lifecycle workflows and automated operational reporting.
+Led operational migrations from shared inbox workflows into Salesforce Service Cloud, improving routing, accountability,
+reporting visibility, and cross-functional coordination across Customer Success and Support teams.
+Led change management and enablement initiatives supporting role transformations and customer-centric operating
+models focused on customer goals, stakeholders, adoption, and measurable business outcomes while mentoring emerging
+Customer Success leaders and managing five customer-facing team members.
+
+Freshworks | Director of Customer Success | January 2019 to November 2024 | Remote
+
+Promoted twice from Customer Success Manager to Director while leading customer engagement, renewals, forecasting, and
+operational execution across a $30MM+ ARR portfolio of 400 mid-market and enterprise accounts.
+Delivered 113% NRR through scalable customer engagement strategies, executive stakeholder management, renewal workflows,
+and operational process improvements.
+Designed Customer Success operating models, lifecycle workflows, digital engagement programs, and forecasting processes that
+enabled Customer Success teams to scale account coverage without sacrificing customer experience.
+Partnered with Revenue Operations and GTM Systems teams to build Salesforce and Gainsight workflows supporting customer
+health visibility, renewal forecasting, operational reporting, and expansion management.
+Led and coached Customer Success teams while mentoring emerging leaders and implementing Working Genius and Situational
+Leadership frameworks to improve collaboration, team development, and leadership effectiveness.
+
+Signavio | Manager and Senior Customer Success Manager | August 2016 to January 2019 | Boston, MA
+
+Achieved 110% NRR by improving onboarding, stakeholder engagement, customer adoption, and operational visibility
+across mid-market and enterprise SaaS customers.
+Built segmentation models, onboarding workflows, health metrics, and Tableau reporting that improved prioritization,
+renewal visibility, and expansion identification.
+
+Federal Reserve Bank of Boston / Ascent Technology | Senior and Lead Engineer | 2005 - 2016 | Boston, MA
+Led infrastructure and operations projects for complex software deployments in regulated environments, managing servers,
+networking, storage, and security for mission-critical customers.
+Built automation, documentation, and change management workflows that strengthened process discipline and knowledge
+management and prepared teams for later enablement-focused roles.
+
+Education
+Franklin Pierce University | B.A., Communications and Computer Science
+
+Professional Development
+Overclock AI Ops Accelerator: (Current) Focused on AI-native operational systems, rapid application development, automation
+workflows, and deploying AI-native business solutions.
+
+Skills
+AI & Systems Building: OpenAI APIs, ChatGPT, Claude, Gemini, Slack APIs, n8n, AI-native operational systems, workflow
+orchestration, internal tooling, automation architecture, Google Apps Script
+
+Customer Intelligence & Operations: Customer intelligence infrastructure, telemetry-driven workflows, onboarding orchestration,
+renewal forecasting, signal detection, lifecycle automation, operational reporting, scalable customer engagement
+
+Platforms & Data: Salesforce, Service Cloud, Gainsight, Planhat, Statisfy, Metabase, Tableau, SQL, BI reporting, operational
+dashboards, Google Sheets
+
+Leadership: Cross-functional leadership, Customer Success strategy, operational systems design, mentoring and coaching emerging
+leaders, GTM alignment, executive communication, Working Genius and Situational Leadership frameworks

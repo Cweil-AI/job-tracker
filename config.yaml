@@ -1,85 +1,69 @@
 # =============================================================================
-# Job Tracker Configuration
+# Job Tracker Configuration — Jim Smith
 # =============================================================================
 
-# Supabase / Neon PostgreSQL connection string
-# Set this as the DATABASE_URL environment variable in Railway instead
+# PostgreSQL connection string — set as DATABASE_URL env var in Railway
 database_url: ""
 
 
 campaigns:
 
   # ---------------------------------------------------------------------------
-  # Campaign 1 — Edit this with the user's target roles
+  # Customer Success Operations
   # ---------------------------------------------------------------------------
-  Campaign Name Here:
+  Customer Success Operations:
     queries:
-      - "job title to search"
-      - "alternative job title"
-      - "another search term"
+      - "Director Customer Success Operations"
+      - "Customer Success Operations Manager"
+      - "Customer Success Operations Director"
+      - "Senior Manager Customer Success Operations"
+      - "Head of Customer Success Operations"
+      - "Customer Operations Manager"
+      - "Customer Operations Director"
+      - "CS Operations Manager"
+      - "Customer Success Strategy Operations"
+      - "Customer Success Operations Lead"
 
     filters:
       # Job title MUST contain at least one of these words (case-insensitive)
       title_must_include:
-        - keyword1
-        - keyword2
+        - customer success
+        - customer operations
+        - cs operations
+        - csops
 
       # Job title must NOT contain any of these words
       title_must_exclude:
         - software engineer
         - software developer
+        - data scientist
+        - data analyst
+        - business analyst
+        - marketing
         - designer
+        - sales representative
+        - account executive
         - nurse
         - driver
+        - recruiter
+        - product manager
+        - project manager
 
-      # Locations to allow — include "remote" and "united states" for remote roles
+      # Remote US-wide + Greater Boston Area hybrid
       location_allow:
         - remote
         - united states
-        - new york
-        - new jersey
-        - connecticut
         - massachusetts
-        - pennsylvania
-        - washington dc
-        - maryland
-        - virginia
-        - north carolina
-        - south carolina
-        - georgia
-        - florida
         - boston
-        - philadelphia
-        - atlanta
-        - miami
-        - charlotte
-        - raleigh
-        - " ny"
-        - " nj"
-        - " ct"
+        - cambridge
+        - waltham
+        - woburn
+        - burlington
+        - lexington
+        - newton
+        - natick
+        - framingham
         - " ma"
-        - " pa"
-        - " dc"
-        - " md"
-        - " va"
-        - " nc"
-        - " sc"
-        - " ga"
-        - " fl"
-
-  # ---------------------------------------------------------------------------
-  # Campaign 2 — Add a second campaign or delete this section
-  # ---------------------------------------------------------------------------
-  # Second Campaign Name:
-  #   queries:
-  #     - "search term"
-  #   filters:
-  #     title_must_include:
-  #       - keyword
-  #     title_must_exclude:
-  #       - unwanted
-  #     location_allow:
-  #       - remote
 
 
 # =============================================================================
@@ -89,27 +73,25 @@ email:
   enabled: true
   smtp_host: smtp.gmail.com
   smtp_port: 587
-  username: THEIR_EMAIL@gmail.com
-  password: THEIR_GMAIL_APP_PASSWORD
-  to: THEIR_EMAIL@gmail.com
+  username: jrsmitty21@gmail.com
+  password: GMAIL_APP_PASSWORD_HERE
+  to: jrsmitty21@gmail.com
 
 
 # =============================================================================
-# Desktop Notifications (set to false for server deployments)
+# Desktop Notifications (disabled for server deployment)
 # =============================================================================
 notifications:
   desktop: false
 
 
 # =============================================================================
-# Tavily API (company research enrichment)
-# Set as TAVILY_API_KEY environment variable in Railway instead
+# Tavily API — set as TAVILY_API_KEY env var in Railway
 # =============================================================================
 tavily_api_key: ""
 
 
 # =============================================================================
-# Anthropic API (AI scoring, enrichment, cover letters, nudges)
-# Set as ANTHROPIC_API_KEY environment variable in Railway instead
+# Anthropic API — set as ANTHROPIC_API_KEY env var in Railway
 # =============================================================================
 anthropic_api_key: ""
