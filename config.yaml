@@ -69,6 +69,13 @@ campaigns:
       location_allow:
         - remote
         - united states
+        - usa
+        - u.s.
+        - worldwide
+        - anywhere
+        - global
+        - north america
+        - americas
         - massachusetts
         - boston
         - cambridge
