@@ -6,6 +6,22 @@
 database_url: ""
 
 
+# =============================================================================
+# Candidate profile — used for AI job scoring and email digests
+# =============================================================================
+candidate:
+  name: Jim Smith
+  role: Customer Success Operations leader
+  summary: >
+    15+ years of Customer Success and Operations leadership in B2B SaaS.
+    Director of Customer Success at Freshworks managing a $30MM+ ARR portfolio
+    with 113% NRR; currently Sr. Manager of CX Operations at Katalon building
+    customer intelligence systems, lifecycle automation, and AI-native
+    operational tooling (OpenAI APIs, Slack apps, Salesforce, Gainsight).
+    Targeting Customer Success Operations roles at the Manager, Senior Manager,
+    and Director level — remote or hybrid in the Greater Boston Area.
+
+
 campaigns:
 
   # ---------------------------------------------------------------------------
