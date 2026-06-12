@@ -29,16 +29,13 @@ campaigns:
   # ---------------------------------------------------------------------------
   Customer Success Operations:
     queries:
-      - "Director Customer Success Operations"
-      - "Customer Success Operations Manager"
-      - "Customer Success Operations Director"
-      - "Senior Manager Customer Success Operations"
-      - "Head of Customer Success Operations"
-      - "Customer Operations Manager"
-      - "Customer Operations Director"
-      - "CS Operations Manager"
-      - "Customer Success Strategy Operations"
-      - "Customer Success Operations Lead"
+      - "customer success operations"
+      - "customer success"
+      - "customer operations"
+      - "CS operations"
+      - "customer success strategy"
+      - "Director Customer Success"
+      - "Head of Customer Success"
 
     filters:
       # Job title MUST contain at least one of these words (case-insensitive)
