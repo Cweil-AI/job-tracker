@@ -94,7 +94,7 @@ email:
   smtp_host: smtp.gmail.com
   smtp_port: 587
   username: jrsmitty21@gmail.com
-  password: jmkx tweb eenl ggms
+  # password: set as EMAIL_PASSWORD env var in Railway
   to: jrsmitty21@gmail.com
 
 
