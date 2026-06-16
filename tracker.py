@@ -4,6 +4,7 @@ Job Board Tracker
 Monitors multiple job boards for new postings and sends notifications.
 """
 
+import os
 import psycopg2
 import feedparser
 import requests
@@ -126,6 +127,15 @@ def init_db():
             company_summary   TEXT
         )
     """)
+    # Resumes table
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS resumes (
+            id          SERIAL PRIMARY KEY,
+            name        TEXT UNIQUE NOT NULL,
+            content     TEXT,
+            uploaded_at TIMESTAMPTZ DEFAULT NOW()
+        )
+    """)
     # Safe migration: add columns introduced after the initial schema
     for _ddl in [
         "ALTER TABLE seen_jobs ADD COLUMN IF NOT EXISTS nudge TEXT",
@@ -157,18 +167,45 @@ def is_new(conn, jid: str) -> bool:
 # Relevance Scoring — LLM-based via Anthropic
 # ---------------------------------------------------------------------------
 
+_DEFAULT_PROFILE = {
+    "name": "the candidate",
+    "summary": (
+        "10+ years recruiting experience, founding recruiter at multiple startups, "
+        "strong focus on AI/ML and technical hiring, full-cycle recruiting, "
+        "talent acquisition leadership, experience at high-growth Series A-C companies."
+    ),
+    "role": "senior technical recruiter",
+}
+
+
+def get_candidate_profile() -> dict:
+    """
+    Read the candidate profile from config.yaml. Falls back to defaults
+    for backward compatibility with configs that predate this field.
+    """
+    try:
+        cfg = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
+        profile = cfg.get("candidate", {}) or {}
+        return {
+            "name":    profile.get("name")    or _DEFAULT_PROFILE["name"],
+            "summary": profile.get("summary") or _DEFAULT_PROFILE["summary"],
+            "role":    profile.get("role")    or _DEFAULT_PROFILE["role"],
+        }
+    except Exception:
+        return dict(_DEFAULT_PROFILE)
+
+
 def score_job_with_llm(title: str, company: str, description: str = "") -> tuple[int, str]:
-    """Score a job 1-5 using Claude Haiku based on Corey's recruiter background."""
+    """Score a job 1-5 using Claude Haiku based on the candidate's background."""
     try:
         import anthropic
         client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from environment
 
+        profile = get_candidate_profile()
         desc_snippet = description[:1500] if description else "Not available"
         prompt = (
-            "You are evaluating job fit for a senior technical recruiter.\n"
-            "Background: 10+ years recruiting experience, founding recruiter at multiple startups, "
-            "strong focus on AI/ML and technical hiring, full-cycle recruiting, "
-            "talent acquisition leadership, experience at high-growth Series A-C companies.\n\n"
+            f"You are evaluating job fit for a {profile['role']}.\n"
+            f"Background: {profile['summary']}\n\n"
             f"Job details:\n"
             f"- Title: {title}\n"
             f"- Company: {company}\n"
@@ -608,7 +645,7 @@ def fetch_himalayas(query: str) -> list[dict]:
     """Fetch from Himalayas — startup/remote-focused job board with free API."""
     url = "https://himalayas.app/jobs/api/search"
     try:
-        resp = requests.get(url, params={"q": query, "sort": "recent", "limit": 20},
+        resp = requests.get(url, params={"q": query, "sort": "recent", "limit": 50},
                             headers=HEADERS, timeout=15)
         data = resp.json()
         jobs = []
@@ -660,7 +697,7 @@ def fetch_remotive(query: str) -> list[dict]:
     """Fetch from Remotive — remote tech jobs with free API (rate-limited)."""
     url = "https://remotive.com/api/remote-jobs"
     try:
-        resp = requests.get(url, params={"search": query, "limit": 10},
+        resp = requests.get(url, params={"search": query, "limit": 50},
                             headers=HEADERS, timeout=15)
         data = resp.json()
         jobs = []
@@ -681,8 +718,67 @@ def fetch_remotive(query: str) -> list[dict]:
         return []
 
 
+def fetch_adzuna(query: str) -> list[dict]:
+    """
+    Fetch from Adzuna — official API covering millions of US jobs including
+    on-site and hybrid roles. Activates only when ADZUNA_APP_ID and
+    ADZUNA_APP_KEY env vars are set (free at developer.adzuna.com).
+
+    Optionally set ADZUNA_WHERE (e.g. "Boston, MA") to run a second,
+    location-targeted search per query so local on-site/hybrid roles
+    aren't crowded out of the nationwide results.
+    """
+    import os
+    app_id  = os.environ.get("ADZUNA_APP_ID")
+    app_key = os.environ.get("ADZUNA_APP_KEY")
+    if not app_id or not app_key:
+        return []
+    url = "https://api.adzuna.com/v1/api/jobs/us/search/1"
+
+    base_params = {
+        "app_id":           app_id,
+        "app_key":          app_key,
+        "what":             query,
+        "results_per_page": 50,
+        "max_days_old":     7,
+        "sort_by":          "date",
+    }
+    searches = [base_params]
+    where = os.environ.get("ADZUNA_WHERE")
+    if where:
+        searches.append({**base_params, "where": where, "distance": 40})
+
+    jobs, seen = [], set()
+    for params in searches:
+        try:
+            resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
+            data = resp.json()
+            for item in data.get("results", []):
+                job_url = item.get("redirect_url", "")
+                if not job_url or job_url in seen:
+                    continue
+                seen.add(job_url)
+                loc_parts = (item.get("location") or {}).get("area") or []
+                location  = ", ".join(loc_parts[1:]) if len(loc_parts) > 1 else \
+                            (item.get("location") or {}).get("display_name", "")
+                jobs.append({
+                    "title":       item.get("title", "").replace("<strong>", "").replace("</strong>", ""),
+                    "company":     (item.get("company") or {}).get("display_name", ""),
+                    "location":    location,
+                    "url":         job_url,
+                    "source":      "Adzuna",
+                    "posted_at":   parse_date(item.get("created")),
+                    "description": strip_html(item.get("description", "")),
+                })
+        except Exception as exc:
+            log.warning(f"  Adzuna fetch failed for '{query}': {exc}")
+    log.info(f"  Adzuna     '{query}': {len(jobs)} results")
+    return jobs
+
+
 SOURCES = [fetch_indeed, fetch_himalayas, fetch_remotive,
-           fetch_remoteok, fetch_arbeitnow, fetch_weworkremotely, fetch_jobicy]
+           fetch_remoteok, fetch_arbeitnow, fetch_weworkremotely, fetch_jobicy,
+           fetch_adzuna]
 # fetch_linkedin paused
 
 
@@ -775,11 +871,11 @@ def generate_email_digest(all_jobs: list[dict], total: int) -> str | None:
                 f"resume note: {j.get('resume_rationale', 'N/A')})"
             )
 
+        profile = get_candidate_profile()
         prompt = (
-            "You are writing a brief, conversational email digest for Corey Weil, a senior technical recruiter.\n\n"
-            "Corey's background: 10+ years recruiting experience, previously at Trilogy Education "
-            "(acquired for $750M), Presidents Club winner, targeting founding recruiter and senior "
-            "technical recruiter roles at Series A/B startups. Also exploring AI Operations roles.\n\n"
+            f"You are writing a brief, conversational email digest for {profile['name']}, "
+            f"a {profile['role']}.\n\n"
+            f"{profile['name']}'s background: {profile['summary']}\n\n"
             f"New job matches ({total} total):\n" + "\n".join(job_lines) + "\n\n"
             "Write a short, conversational email digest (3-5 sentences) that:\n"
             "1. Opens with a one-line summary (e.g. '8 new matches came in since your last check')\n"
@@ -899,7 +995,7 @@ def send_email(config: dict, jobs_by_campaign: dict[str, list[dict]], last_email
         with smtplib.SMTP(smtp_host, smtp_port) as smtp:
             smtp.ehlo()
             smtp.starttls()
-            smtp.login(cfg["username"], cfg["password"])
+            smtp.login(cfg["username"], os.environ.get("EMAIL_PASSWORD") or cfg.get("password", ""))
             smtp.send_message(msg)
         log.info(f"Email sent — {total} new jobs to {msg['To']}")
         return True
@@ -1089,7 +1185,7 @@ def send_weekly_digest(config: dict, conn, since: datetime):
         with smtplib.SMTP(smtp_host, smtp_port) as smtp:
             smtp.ehlo()
             smtp.starttls()
-            smtp.login(cfg["username"], cfg["password"])
+            smtp.login(cfg["username"], os.environ.get("EMAIL_PASSWORD") or cfg.get("password", ""))
             smtp.send_message(msg)
         log.info(f"Weekly digest sent to {msg['To']}")
         return True
