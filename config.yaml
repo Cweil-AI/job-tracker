@@ -1,85 +1,106 @@
 # =============================================================================
-# Job Tracker Configuration
+# Job Tracker Configuration — Elena Kritskaya
 # =============================================================================
 
-# Supabase / Neon PostgreSQL connection string
-# Set this as the DATABASE_URL environment variable in Railway instead
+# PostgreSQL connection string — set as DATABASE_URL env var in Railway
 database_url: ""
+
+
+# =============================================================================
+# Candidate profile — used for AI job scoring and email digests
+# =============================================================================
+candidate:
+  name: Elena Kritskaya
+  role: Operations leader and AI-native operator
+  summary: >
+    High-agency operations professional with 10+ years designing processes,
+    tools, and systems across operations, program management, vendor management,
+    and executive support. At Treasury Wine Estates centralized a ~$2M rebate
+    program portfolio (350+ programs/year), cut approval volume 40%, payment
+    cycle time ~80%, and reporting turnaround 8x. Fluent in AI-native development:
+    Claude Code, LLM APIs, multi-agent systems, Slack apps, MCP integrations,
+    Supabase/PostgreSQL, and serverless deployment. Targeting Senior Operations
+    Associate, Product Operations, AI Operations, and Founding/Founder's Associate
+    roles. Based in San Francisco; open to remote and SF Bay Area.
 
 
 campaigns:
 
   # ---------------------------------------------------------------------------
-  # Campaign 1 — Edit this with the user's target roles
+  # Operations / Product Ops / AI Ops / Founder's Associate
   # ---------------------------------------------------------------------------
-  Campaign Name Here:
+  Operations & AI Ops:
     queries:
-      - "job title to search"
-      - "alternative job title"
-      - "another search term"
+      - "operations associate"
+      - "senior operations associate"
+      - "business operations"
+      - "product operations"
+      - "AI operations"
+      - "AI ops"
+      - "founder associate"
+      - "founders associate"
+      - "chief of staff"
+      - "operations manager"
 
     filters:
       # Job title MUST contain at least one of these words (case-insensitive)
       title_must_include:
-        - keyword1
-        - keyword2
+        - operations
+        - operating
+        - product ops
+        - ai ops
+        - founder
+        - founding
+        - chief of staff
 
       # Job title must NOT contain any of these words
       title_must_exclude:
         - software engineer
         - software developer
-        - designer
+        - devops
+        - it operations
+        - network operations
+        - security operations
+        - warehouse
+        - field operations
+        - store operations
+        - retail operations
+        - restaurant operations
+        - manufacturing operations
         - nurse
         - driver
+        - technician
+        - mechanic
+        - designer
+        - recruiter
+        - account executive
+        - sales representative
 
-      # Locations to allow — include "remote" and "united states" for remote roles
+      # Remote US-wide + San Francisco Bay Area
       location_allow:
         - remote
         - united states
-        - new york
-        - new jersey
-        - connecticut
-        - massachusetts
-        - pennsylvania
-        - washington dc
-        - maryland
-        - virginia
-        - north carolina
-        - south carolina
-        - georgia
-        - florida
-        - boston
-        - philadelphia
-        - atlanta
-        - miami
-        - charlotte
-        - raleigh
-        - " ny"
-        - " nj"
-        - " ct"
-        - " ma"
-        - " pa"
-        - " dc"
-        - " md"
-        - " va"
-        - " nc"
-        - " sc"
-        - " ga"
-        - " fl"
-
-  # ---------------------------------------------------------------------------
-  # Campaign 2 — Add a second campaign or delete this section
-  # ---------------------------------------------------------------------------
-  # Second Campaign Name:
-  #   queries:
-  #     - "search term"
-  #   filters:
-  #     title_must_include:
-  #       - keyword
-  #     title_must_exclude:
-  #       - unwanted
-  #     location_allow:
-  #       - remote
+        - usa
+        - u.s.
+        - worldwide
+        - anywhere
+        - global
+        - north america
+        - americas
+        - california
+        - san francisco
+        - bay area
+        - oakland
+        - berkeley
+        - palo alto
+        - mountain view
+        - menlo park
+        - san jose
+        - san mateo
+        - redwood city
+        - sunnyvale
+        - santa clara
+        - " ca"
 
 
 # =============================================================================
@@ -89,27 +110,25 @@ email:
   enabled: true
   smtp_host: smtp.gmail.com
   smtp_port: 587
-  username: THEIR_EMAIL@gmail.com
-  password: THEIR_GMAIL_APP_PASSWORD
-  to: THEIR_EMAIL@gmail.com
+  username: elena.kritskaya@gmail.com
+  # password: set as EMAIL_PASSWORD env var in Railway
+  to: elena.kritskaya@gmail.com
 
 
 # =============================================================================
-# Desktop Notifications (set to false for server deployments)
+# Desktop Notifications (disabled for server deployment)
 # =============================================================================
 notifications:
   desktop: false
 
 
 # =============================================================================
-# Tavily API (company research enrichment)
-# Set as TAVILY_API_KEY environment variable in Railway instead
+# Tavily API — set as TAVILY_API_KEY env var in Railway
 # =============================================================================
 tavily_api_key: ""
 
 
 # =============================================================================
-# Anthropic API (AI scoring, enrichment, cover letters, nudges)
-# Set as ANTHROPIC_API_KEY environment variable in Railway instead
+# Anthropic API — set as ANTHROPIC_API_KEY env var in Railway
 # =============================================================================
 anthropic_api_key: ""

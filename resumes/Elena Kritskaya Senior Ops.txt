@@ -1,0 +1,72 @@
+ELENA KRITSKAYA
+
+San Francisco, CA | 650-670-5986 | elena.kritskaya@gmail.com | linkedin.com/in/elenakritskaya
+
+SUMMARY
+
+Operations leader who identifies systemic inefficiencies and builds the processes, tools, and feedback loops to fix them at scale. Centralized fragmented workflows across a multi-million-dollar portfolio, managing 350+ programs per year while driving measurable improvements - reducing approval volume by 40%, payment cycle time by ~80%, and compressing reporting turnaround 8x - from days to hours. Brings analytical rigor and cross-functional judgment to complex, regulated environments where clarity, ownership, and impact matter.
+
+SKILLS
+
+Business Operations | Process Design & Workflow Optimization | Program & Project Management | Cross-Functional Execution | Vendor Management | Reporting & Performance Tracking | Executive Operations Support | System & Operational Framework Design | Claude Code (App Building, Deployment, Tool Design) | LLM APIs | Slack App Configuration (AI Agent Gateway) | Agent Workflows (Slack to Notion via MCP) | Event-Driven Automation (Webhooks) | Workflow Automation | Python (Basic Scripting) | Supabase/PostgreSQL | Full-Stack Deployment (Vercel, Serverless) | AI Guardrails & Cost Management | SaaS Tools (Airtable, Salesforce, Wrike, Notion)
+
+EXPERIENCE
+
+Marketing Operations Associate — Treasury Wine Estates (Nov 2019 – Present)
+- Centralized a ~$2M rebate operating model and standardized workflows for 350+ programs/year, personally managing the majority of orders while enforcing compliance and high-quality standards to reduce errors.
+- Built interactive decision-support dashboards (HTML, with Claude Code) that surface spend, item status, and budget impact at each decision point in promotional programs - replacing Excel views with instant visibility for faster, cleaner, data-informed decisions. Now in active team use and generating leadership interest in expanding AI-assisted tooling across operations.
+- Built an internal Airtable app to replace fragmented Excel workflows, leveraging AI-assisted schema design and automation to create a centralized database with real-time dashboards that saved days of manual work and improved program spend visibility.
+- Established monthly and fiscal-year reporting cadences for redemptions and budget tracking, enabling strategic planning and spend optimization across Sales, Marketing, and Finance.
+- Improved Finance team visibility into projected fiscal-year spend by designing a cost forecasting tracker that supported annual budget planning.
+- Reduced internal approval volume by 40% by redesigning governance workflows and defining clear exception criteria, saving leadership hours each month.
+- Served as a trusted advisor across Sales, Marketing, and Finance on rebate programs, consulting team members on process, compliance, and execution strategy.
+- Improved customer experience by redesigning rebate workflows and reducing processing and payment cycle time by ~80%.
+- Led post-incident investigation with a key vendor, resulting in ~$200K in credits and the implementation of new fraud detection processes.
+
+Project Coordinator — BAR Architects (Jan 2019 – Nov 2019)
+- Managed project operations and contract workflows for high-profile architecture clients with $1M+ budgets, ensuring clarity across timelines, deliverables, and stakeholder expectations.
+- Provided executive support to four principals and their project teams, coordinating scheduling, project billing, and internal document flow.
+- Supported culture-building initiatives, team events, and office logistics as part of people operations.
+
+Project Coordinator — Insight Resource Group (Aug 2015 – Aug 2018)
+- Managed a high volume of orders from entry to invoicing, ensuring speed and accuracy in a fast-paced operational environment.
+- Partnered with account managers and project managers to maintain accurate project details and execution status in internal systems.
+- Developed monthly billing and operational reports to provide leadership with visibility into pipeline and performance.
+
+Customer Support Specialist — Meso Scale Diagnostics, LLC (Mar 2014 – Mar 2015)
+- Managed communications with enterprise R&D customers in Biotechnology, Pharmaceutical, and Life Sciences, providing pre-sales and post-sales support in a technical product environment.
+
+Contract Manager — Argus Limited (2012 – 2013)
+- Delivered $7.5M in international contracts; managed end-to-end contract execution, compliance, and customer portfolio growth.
+
+Part-time Operations & Business Development Associate — AGV Sports Group, Inc. (2011 – 2015)
+- Served as primary point of contact for an international distributor in Russia; retained and grew $250K in annual revenue.
+- Supported full business operations in a lean team: customer communications, order fulfillment, vendor coordination, and trade show logistics.
+
+EDUCATION
+
+AI Ops Program — Overclock Accelerator (June 2026)
+- Intensive program focused on AI-native development, LLM integration, and building production-ready automations using Claude Code and modern AI tooling.
+
+Leadership Program Certificate — Co-Active Training Institute
+Bachelor's Degree, Economics and Management — South Ural State University
+
+AI & TECHNICAL PROJECTS (March-June 2026)
+
+AI Marketing Operations System — Capstone (Overclock Accelerator)
+- Designed and deployed a multi-agent operations platform (Supabase/PostgreSQL, Vercel serverless) that consolidates fragmented program data into one source of truth and produces reporting on demand. Built an event-triggered report pipeline where a webhook fires a builder agent that queries the database in an iterative tool-use loop — writing each query on the fly from the request — and a reviewer agent grades the output against the original request before delivery, with human-in-the-loop override. Engineered guardrails (SELECT-only queries, row/timeout caps, auditable query logs) at a verified ~$0.18 per report, plus a natural-language data analyst and a Python + LLM MOQ recommender.
+
+HTML Reporting & Dashboards
+- Built HTML dashboards and on-demand reports — coupon redemption, promotional program performance, and investment/spend views — that compress report turnaround from hours and days to minutes, giving faster visibility for spend decisions.
+
+Voice Agent App
+- Built a speech-to-text to LLM to text-to-speech pipeline enabling voice-driven AI interactions. Integrated web search, Notion, and calendar connections for automated task execution and scheduling.
+
+AI-Powered Catalog Automation
+- Developed an Excel/Image Zip file-to-HTML catalog generator: upload product data and images to automatically generate formatted digital catalogs.
+
+AI-Powered Data Cleanup
+- Built Python Code based artifact for Excel cleanup automation to eliminate manual data preparation.
+
+Hermes Agent & MCP Integrations — Personal Project
+- Deployed and configured a working Hermes AI agent operated through a Slack App interface, with MCP (Model Context Protocol) connection to Notion. Messages sent in Slack trigger the agent to run a web search and post results back to Notion.
