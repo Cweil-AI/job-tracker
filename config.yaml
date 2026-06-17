@@ -86,7 +86,7 @@ campaigns:
 # Email Notifications
 # =============================================================================
 email:
-  enabled: true
+  enabled: false
   smtp_host: smtp.gmail.com
   smtp_port: 587
   username: THEIR_EMAIL@gmail.com
