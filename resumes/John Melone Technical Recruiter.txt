@@ -1,0 +1,70 @@
+John Melone
+347-495-3835
+johnemelone@gmail.com
+https://www.linkedin.com/in/johnmelone/
+
+SUMMARY
+
+IT Staffing Leader with 15+ years of experience driving talent strategy across startups, high-growth environments, and established organizations. Proven track record of delivering top technical talent, optimizing recruiting operations, and supporting revenue growth across contract and direct hire.
+
+WORK EXPERIENCE
+
+Abacus Group, LLC – New York, NY (Remote/Hybrid)
+Director of Information Technology Staffing (April 2025-Present)
+- Brought in to establish and lead Abacus Group's IT Staffing division from the ground up, establishing the company's first dedicated technology recruiting department and creating scalable recruiting operations, processes, and delivery strategy.
+- Built the IT consulting practice, growing it from $0 to $57.5K in monthly gross profit, while consistently holding a strong 40% markup on candidates and establishing a reliable, high-margin delivery pipeline.
+- Placed high-impact talent across a wide range of technology roles, including AI/ML engineers, full stack developers (Java, Python, JavaScript), QA engineers, desktop engineers, and project/program managers, with a strong focus on supporting teams building and scaling complex trading and financial applications.
+- Successfully launched and managed a high-performing recruiting team, hiring and mentoring three technical recruiters, two sales executives while remaining fully hands-on in full lifecycle recruiting.
+- Developed the recruiting department's operational framework, including recruiting workflows, KPI tracking, candidate engagement strategy, interview processes, account delivery standards, and reporting structure.
+- Designed and implemented recruiting automations utilizing AI tools, Boolean search strategies, CRM workflows, LinkedIn Recruiter, ATS integrations, and sourcing platforms to streamline talent acquisition operations and reduce time-to-fill.
+- Strengthened and maintained relationships with hiring managers and key stakeholders across accounts, consistently delivering high-quality candidates, keeping roles moving, and turning one-off reqs into long-term, repeat business.
+- Partnered with organizations ranging from early-stage startups (Seed–Series D) to Fortune 500 enterprises, delivering talent solutions across diverse growth environments.
+
+Syfter, New York, NY (Remote)
+Principal Technical Recruiter / Account Manager (August 2020-March 2025)
+- Executed Full Life Cycle recruiting on a contract, contract to hire and direct placement basis which resulted in averaging $130,000 gross profit a month in consultant billing and over $255,000 in permanent placement fees yearly.
+- Expanded the recruiting team from 4 to 15 people in a two-year time span which resulted in winning the SIA best place to work three years in a row.
+- Interact as the main point of contact with resource managers, hiring managers, and various other MSP client members.
+- Successfully recruited top-tier talent across all IT disciplines, including front-end, back-end, and full-stack engineers, cybersecurity specialists, quality assurance professionals, project managers, and compliance experts, leveraging advanced sourcing techniques, technical assessments, and strong industry networks to meet diverse hiring needs.
+- Conducted thorough candidate assessments, interviews, and reference checks to ensure the selection of high-quality candidates.
+- Utilized various sourcing methods, including job boards, social media, and networking events, to build a pipeline of qualified candidates.
+- Provided regular updates to clients on the status of ongoing searches and collaborated with them to adjust the recruitment strategy as needed.
+
+Ubergig, New York, NY (Remote)
+Director of Recruiting (February 2010-August 2020)
+- Engineered the company's recruitment process and strategy from initial conception, hiring and leading a staff of 6 recruiters and 1 recruitment coordinator to execute the recruitment goals.
+- Led a staff of six recruiters and one recruiting coordinator while remaining hands on.
+- Actively sourced for networking candidates which fall within the company's core competency, as well as various other IT skill sets.
+- Work closely with team members to ensure that team monthly, quarterly, and yearly goals are met and exceeded.
+- Acted as an account liaison between sales representatives and recruiters to ensure that all candidates presented are at company standards.
+- Met high-demand hiring needs for a major startup, hiring a 20-person team of front end, back end, mobile, automation and DevOps engineers, designers and product managers in 10 months.
+- Recruited and hired 26 technologists of all different levels – from Associate Engineer to VP of Engineering over a 9-month period.
+
+Network & Company, New York, NY
+Senior IT Recruiter (July 2006-February 2010)
+- Actively sourced candidates for various openings in the areas of development, infrastructure, healthcare, life sciences, business analysis, and project management.
+- Used various recruiting methods such as: Personal Database, LinkedIn, Dice, Monster, Career Builder, referrals, cold calling, and various user groups resulting in 40 placements (12 Perm, 28 Consulting) which produced more than $42,000 a month in consulting profit and $228,000 in permanent placement fees.
+- Account manager for Fortune 1000 and middle market accounts such as: Deloitte, Scholastic, Redcatsusa, Dimension Data, etc.
+- Set forth policies and procedures for streamlining the recruiting process.
+
+PlatinumIT, New York, NY
+Technical Recruiter / Account Manager (January 2005-July 2006)
+
+EDUCATION
+
+City University of New York - College of Staten Island
+B.S. Dramatic Arts
+
+TECHNICAL SKILLS
+
+Advanced Boolean/X-Ray Search (Google, GitHub, LinkedIn), Talent Mapping, Market Intelligence, Competitive Benchmarking, LinkedIn Recruiter, LinkedIn Sales Navigator, Indeed, GitHub, Stack Overflow, SeekOut, HireEZ (Hiretual), AmazingHiring, Bullhorn, JobDiva, Greenhouse, Lever, Workday, iCIMS, Crelate
+
+AI & AUTOMATION IN RECRUITING
+
+Proficient in AI-powered recruiting tools including Metaview, Juicebox (PeopleGPT), Findem, Humanly, Maki People, Bluedot, GoodTime, and Greenhouse Analytics, with hands-on experience building custom AI workflow automations for resume screening, candidate sourcing, and ATS data entry using Claude (Anthropic).
+
+CERTIFICATES
+
+Claude 101 - Claude (2026)
+Google AI Essentials - Google (2026)
+AI for App Building - Google (2026)
